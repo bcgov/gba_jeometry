@@ -72,7 +72,7 @@ public interface UrlProxy {
           newUrl.append('#');
           newUrl.append(ref);
         }
-        return new URL(newUrl.toString());
+        return URI.create(newUrl.toString()).toURL();
       } catch (final MalformedURLException e) {
         throw new IllegalArgumentException(
           "Cannot create child URL for " + parentUrl + " + " + child);

@@ -199,7 +199,7 @@ public final class DataTypes {
     } else {
       final String string = DataTypes.toString(value);
       try {
-        return new URL(string);
+        return URI.create(string).toURL();
       } catch (final MalformedURLException e) {
         throw new IllegalArgumentException("Unknown URL", e);
       }
