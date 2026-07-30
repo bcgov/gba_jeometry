@@ -50,7 +50,6 @@ public interface UrlProxy {
       return null;
     } else {
       try {
-        // final String encodedChild = percentEncode(child);
         final StringBuilder newUrl = new StringBuilder(parentUrl.toExternalForm());
         final String ref = parentUrl.getRef();
         if (ref != null) {
@@ -63,7 +62,7 @@ public interface UrlProxy {
         if (newUrl.charAt(newUrl.length() - 1) != '/') {
           newUrl.append('/');
         }
-        newUrl.append(child);
+        newUrl.append(new URI(null, null, child, null).getRawPath());
         if (query != null) {
           newUrl.append('?');
           newUrl.append(query);
@@ -72,8 +71,9 @@ public interface UrlProxy {
           newUrl.append('#');
           newUrl.append(ref);
         }
+
         return URI.create(newUrl.toString()).toURL();
-      } catch (final MalformedURLException e) {
+      } catch (final MalformedURLException | IllegalArgumentException | URISyntaxException e) {
         throw new IllegalArgumentException(
           "Cannot create child URL for " + parentUrl + " + " + child);
       }
